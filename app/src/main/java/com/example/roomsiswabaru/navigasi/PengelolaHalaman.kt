@@ -24,6 +24,30 @@ import com.example.roomsiswabaru.ui.halaman.EntrySiswaScreen
 import com.example.roomsiswabaru.ui.halaman.HomeScreen
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SiswaTopAppBar(
+    title: String,
+    canNavigateBack: Boolean,
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    navigateUp: () -> Unit = {}
+){
+    CenterAlignedTopAppBar(title = { Text(title) },
+        modifier = modifier,
+        scrollBehavior = scrollBehavior,
+        navigationIcon = {
+            if (canNavigateBack){
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.back))
+                }
+            }
+        }
+    )
+}
 @Composable
 fun HostNavigasi(
     navController: NavHostController,
