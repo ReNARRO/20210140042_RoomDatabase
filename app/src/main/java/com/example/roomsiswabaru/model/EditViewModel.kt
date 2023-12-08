@@ -36,8 +36,15 @@ class EditViewModel (
             println("Data tidak valid")
         }
     }
+
     fun updateUiState(detailSiswa: DetailSiswa){
         siswaUiState =
             UIStateSiswa(detailSiswa = detailSiswa, isEntryValid = validasiInput(detailSiswa))
+    }
+
+    private fun validasiInput(uiState: DetailSiswa = siswaUiState.detailSiswa):Boolean{
+        return with(uiState){
+            nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
+        }
     }
 }
