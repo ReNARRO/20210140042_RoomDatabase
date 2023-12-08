@@ -90,7 +90,6 @@ fun DetailsScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
         )
 
     }
