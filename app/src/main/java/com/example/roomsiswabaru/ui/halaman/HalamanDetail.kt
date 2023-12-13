@@ -50,6 +50,7 @@ object DetailsDestination: DestinasiNavigasi {
     const val siswaIdArg = "itemId"
     val routeWithArgs = "$route/{$siswaIdArg}"
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
@@ -76,20 +77,22 @@ fun DetailsScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(id = R.string.edit_siswa))
+                    contentDescription = stringResource(id = R.string.edit_siswa),
+                )
             }
-        }, modifier = Modifier
+        }, modifier = modifier
     ) {innerPadding ->
         ItemDetailBody(
             itemDetailsUiState = uiState.value,
-            onDelete = { coroutineScope.launch {
-                viewModel.deleteItem()
-                navigateBack()
-            }
+            onDelete = {
+                coroutineScope.launch {
+                    viewModel.deleteItem()
+                    navigateBack()
+                }
             },
             modifier = Modifier
                 .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         )
 
     }
@@ -102,7 +105,7 @@ private fun ItemDetailBody(
     modifier: Modifier = Modifier
 ){
     Column(
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         var deleteConfirmationRequired by rememberSaveable{ mutableStateOf(false) }
@@ -137,10 +140,10 @@ fun ItemDetails(
     siswa: Siswa, modifier: Modifier =Modifier
 ){
     Card(
-        modifier = Modifier,
+        modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.secondaryContainer
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
         Column(
@@ -174,18 +177,20 @@ fun ItemDetails(
 
     }
 }
+
 @Composable
 private  fun ItemDetailsRow(
     @StringRes labelResID: Int, itemDetail: String, modifier: Modifier = Modifier
 ){
     Row (
-        modifier = Modifier
+        modifier = modifier
     ){
         Text(text = stringResource(labelResID))
         Spacer(modifier = Modifier.weight(1f))
         Text(text = itemDetail, fontWeight = FontWeight.Bold)
     }
 }
+
 @Composable
 private fun DeleteConfirmationDialog(
     onDeleteConfirm: () -> Unit,
@@ -196,7 +201,7 @@ private fun DeleteConfirmationDialog(
         onDismissRequest = { /*TODO*/ },
         title = { Text(stringResource(id = R.string.attention))},
         text = { Text(text = stringResource(id = R.string.delete))},
-        modifier = Modifier,
+        modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDeleteCancel) {
                 Text(text = stringResource(id = R.string.no))
